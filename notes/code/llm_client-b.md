@@ -24,7 +24,7 @@
 
 **Python-constructies in dit deel (1):** `try / except / finally`, met als vervolg: waar een fout heen gaat ("naar boven").
 
-Open [`src/llm_client.py`](../../src/llm_client.py) er weer naast. Op je spiekbriefje: `../naslag/python-fouten-spiekbriefje.md`.
+Open [`src/llm_client.py`](../../src/llm_client.py) er weer naast. Op je spiekbriefje: [Python fouten](../naslag/python-fouten-spiekbriefje.md).
 
 ## 2. Een fout opvangen: `try / except / finally` *(nieuwe constructie)*
 

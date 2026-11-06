@@ -48,10 +48,34 @@ Regel 67 staat ná het hele `try / except / finally`-blok. Je komt er alleen als
 
 Dit is de laatste schakel uit les 02c: het antwoord is geldige JSON, maar staat het verwachte veld er ook in?
 
+**Eerst: JSON kan nesten.** De waarde die bij de sleutel `message` hoort, is zelf weer een dict. Zo zit het antwoord van Ollama in elkaar (echt gemeten):
+
+```
+data                        ← dict (het hele antwoord)
+ ├── "model"        → 'qwen3.5:4b'                    str
+ ├── "done_reason"  → 'stop'                          str
+ ├── "eval_count"   → 5                               int
+ └── "message"      → {"role": ..., "content": ...}   ← dict! nog een doos erin
+                        ├── "role"    → 'assistant'   str
+                        └── "content" → 'hallo'       str
+```
+
+Bij `data["eval_count"]` krijg je dus een getal, maar bij `data["message"]` een hele nieuwe dict. Daarom zijn er twee stappen nodig om bij de tekst te komen: eerst de doos `message` pakken, dan daarin `content`. En `isinstance(message, dict)` vraagt niets over de naam `message`, maar over het ding waar die naam naar wijst — zie *Naam versus ding* op het [Python-spiekbriefje](../naslag/python-spiekbriefje.md).
+
 - **`data.get("message")`** haalt het veld `message` op. Bestaat het niet, dan krijg je `None` in plaats van een fout. Met `data["message"]` zou je een `KeyError` krijgen, de fout uit les 02a.
 - **`isinstance(message, dict)`** vraagt: is `message` een dict? Bij een vreemd antwoord kan het `None` zijn, of iets anders.
 - **`"content" not in message`** vraagt: ontbreekt het veld `content` in dat dict?
 - Klopt één van beide niet, dan gooit `chat()` een `LLMError` (deel C), met het hele antwoord in de melding, zodat je kunt zien wat er wél kwam.
+
+**Waarom `or` en niet `and`?** Omdat dit een *afkeurregel* is: achter de `if` staat een `raise`. Voor afkeuren is één reden genoeg — geen dict, óf geen `content`. Zou je opschrijven dat alles in orde is, dan krijg je automatisch `and`:
+
+```python
+if isinstance(message, dict) and "content" in message:    # alles in orde
+```
+
+Draai je een eis om, dan klapt `and` om naar `or`: *"niet (A en B)"* is hetzelfde als *"niet A of niet B"*. Net als bij een meetresultaat: afkeuren mag op één grond (buiten calibratie óf buiten tolerantie), goedkeuren vraagt beide.
+
+**De volgorde is niet vrij.** Bij `or` stopt Python zodra het linkerdeel `True` is; het rechterdeel wordt dan niet meer uitgevoerd. Dat is hier noodzaak, want met `message = None` geeft de rechterkant `TypeError: argument of type 'NoneType' is not iterable` (echt gedraaid). De `isinstance`-controle staat dus links, als deurwachter. Dit heet **kortsluiting**; zie *and / or in een voorwaarde* op het [Python-spiekbriefje](../naslag/python-spiekbriefje.md).
 
 Deze controle staat niet in het `try`-blok, omdat het hier geen fout van httpx is die vertaald moet worden. Het is onze eigen controle, en die gooit meteen zelf een `LLMError`.
 
@@ -86,6 +110,20 @@ dataclasses.FrozenInstanceError: cannot assign to field 'waarde'
 ```
 
 - **`@dataclass`** boven de class zegt: "dit is een dataclass, maak de rest zelf". Zonder dataclass had je zelf een `__init__` moeten schrijven, met `self.waarde = waarde` en `self.eenheid = eenheid`.
+
+  Dat **`@`-teken** hoort erbij. Het betekent: *pak wat hieronder staat, stop het in deze functie, en gebruik voortaan wat eruit komt.* `dataclass` is namelijk een gewone functie: hij krijgt je lege class binnen, bouwt er een `__init__` en een weergave bij, en geeft hem terug. Deze twee stukken doen precies hetzelfde (echt gedraaid; beide printen `(waarde=10)`):
+
+  ```python
+  @dataclass
+  class MetTeken:
+      waarde: int
+
+  class ZonderTeken:
+      waarde: int
+  ZonderTeken = dataclass(ZonderTeken)
+  ```
+
+  De vakterm is **decorator**. Bij `@dataclass(frozen=True)` zijn de haakjes de instellingen: eerst wordt `dataclass(frozen=True)` uitgevoerd, en de decorator die daaruit komt wordt op je class toegepast. In bouwstap 2 kom je er twee van pytest tegen; zie *Het @-teken* op het [Python-spiekbriefje](../naslag/python-spiekbriefje.md).
 - **`waarde: float`** en **`eenheid: str`** zijn de velden, met hun type.
 - **`frozen=True`** betekent: na het maken kun je de velden niet meer veranderen. Daarom faalt de laatste regel. Een meetresultaat pas je achteraf niet aan.
 

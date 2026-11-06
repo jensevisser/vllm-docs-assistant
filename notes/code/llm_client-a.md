@@ -207,7 +207,7 @@ print(log_meting2(9.9))
 [9.9]
 ```
 
-Waarom werkt dit wel? De `def`-regel draait maar één keer, en bewaart `None` als standaard; daarop kun je niets schrijven. De regel `log = log or []` plakt de naam `log` bij elke aanroep op een **nieuw** lijstje, en de bewaarde `None` blijft `None`. Het verschil tussen een naam op een ander ding plakken (`log = ...`) en op het ding zelf schrijven (`log.append(...)`) staat uitgelegd in `../naslag/python-spiekbriefje.md`, bij "naam versus ding".
+Waarom werkt dit wel? De `def`-regel draait maar één keer, en bewaart `None` als standaard; daarop kun je niets schrijven. De regel `log = log or []` plakt de naam `log` bij elke aanroep op een **nieuw** lijstje, en de bewaarde `None` blijft `None`. Het verschil tussen een naam op een ander ding plakken (`log = ...`) en op het ding zelf schrijven (`log.append(...)`) staat uitgelegd bij *Naam versus ding* op het [Python-spiekbriefje](../naslag/python-spiekbriefje.md).
 
 Dit geldt voor alles wat je achteraf kunt veranderen: lijstjes, dicts en sets. Getallen en teksten zijn veilig als standaardwaarde (`timeout=120.0`). In `chat()` zou `options: dict = {}` nu toevallig goed gaan, omdat `chat()` `options` alleen leest. Maar voegt iemand later een regel toe als "zet altijd een seed in `options`", dan blijft die seed hangen voor alle volgende aanroepen. `None` als standaard voorkomt dat. Het nieuwe dict wordt gemaakt op regel 48.
 

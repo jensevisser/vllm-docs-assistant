@@ -61,7 +61,7 @@ class LLMTimeoutError(LLMError): ...    # familie: except LLMError vangt deze oo
 class X(LLMError, TimeoutError): ...    # twee ouders: beide except-regels vangen hem (spaarzaam)
 ```
 
-**De ouder bepaalt wie hem opvangt:** een `except` vangt de soort die erachter staat, én alles wat daarvan erft. Kies een ouder die past bij wat de fout ís.
+**De ouder bepaalt wie hem opvangt:** een `except` is een `isinstance`-vraag, dus hij vangt de soort die erachter staat én alles wat daarvan erft. Eén richting: de ouder vangt het kind, het kind niet de ouder. Kies dus een ouder die past bij wat de fout ís, en waarvan je wilt dat bestaande `except`-regels je fout meepakken.
 *Zie: `LLMError`, regel 14 · rondleiding deel C · `../code/voorbeelden/erven.py`.*
 
 ## De stamboom van fouten en waarom nooit een kale except

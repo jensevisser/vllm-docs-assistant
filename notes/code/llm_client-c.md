@@ -23,7 +23,7 @@
 
 **Python-constructies in dit deel (3):** `raise` · een eigen fouttype (`class ... (Exception)`) · `raise ... from e`.
 
-Open [`src/llm_client.py`](../../src/llm_client.py) er weer naast. Op je spiekbriefje: `../naslag/python-fouten-spiekbriefje.md`.
+Open [`src/llm_client.py`](../../src/llm_client.py) er weer naast. Op je spiekbriefje: [Python fouten](../naslag/python-fouten-spiekbriefje.md).
 
 ## 2. Zelf een fout gooien: `raise` *(nieuwe constructie)*
 
@@ -77,7 +77,32 @@ Je kent classes uit je intro OOP. Nieuw is waarschijnlijk **`(Exception)`** acht
 
 ### De ouder bepaalt wie hem opvangt
 
-Wat je tussen de haakjes zet, maakt uit: **een `except` vangt de soort die erachter staat, en ook alle soorten die daarvan erven.** Echte uitkomsten (`voorbeelden/erven.py`):
+Wat je tussen de haakjes zet, maakt uit: **een `except` vangt de soort die erachter staat, en ook alle soorten die daarvan erven.**
+
+Dat klinkt als een nieuwe regel, maar het is er één die je al kent. Bij elke `except`-regel stelt Python namelijk precies de vraag uit `isinstance`:
+
+```python
+except LLMError:          # Python vraagt: isinstance(de_fout, LLMError)?
+```
+
+En `isinstance` zegt `True` voor de soort zelf *en* voor alles wat eronder in de stamboom hangt. Daarom gaat opvangen **één kant op: naar beneden**.
+
+```
+        LLMError              ← except LLMError vangt deze, én alles eronder
+        ├── LLMTimeoutError
+        └── LLMConnectError   ← except LLMTimeoutError vangt deze NIET
+```
+
+De ouder vangt het kind; het kind vangt de ouder niet, en broers vangen elkaar niet. Echt gedraaid (`voorbeelden/erven.py`, deel 3):
+
+```
+'except LLMError' vangt LLMTimeoutError
+'except LLMTimeoutError' vangt hem NIET; 'except LLMError' wel -> LLMConnectError
+```
+
+Het praktische gevolg zit in de toekomst. Voegen we later `class LLMTimeoutError(LLMError)` toe, dan vangt elke `except LLMError` die al in het project staat die nieuwe fout automatisch op, zonder dat je één bestaande regel aanpast. Had je `class LLMTimeoutError(Exception)` geschreven, dan glipt hij langs al die regels heen en klapt de meetlat eruit. Eén woord tussen de haakjes, heel ander gedrag. **Vuistregel: kies als ouder de soort waarvan je wilt dat bestaande `except`-regels je nieuwe fout meepakken.**
+
+Alle vier de gevallen op een rij. Echte uitkomsten (`voorbeelden/erven.py`):
 
 | Definitie | Gevolg |
 |---|---|
@@ -93,7 +118,7 @@ Een familie is ook de knop uit les 02c ("één soort of één per schakel"), maa
 ### Twee grenzen
 
 - **Een fout moet afstammen van `BaseException`**, de stamvader van alle fouten. Via `Exception` zit je goed. Een gewone class gooien geeft `TypeError: exceptions must derive from BaseException` (echt gedraaid).
-- **Nooit een kale `except:`**. Onder `BaseException` staan, naast `Exception`, ook stopsignalen, zoals `KeyboardInterrupt` (Ctrl+C) en `SystemExit` (`sys.exit()`). Een kale `except:` vangt die ook, en dan stopt je programma niet meer als je dat wilt. Wil je alle gewone fouten opvangen, schrijf dan `except Exception:`. De stamboom staat op je spiekbriefje.
+- **Nooit een kale `except:`**. Onder `BaseException` staan, naast `Exception`, ook stopsignalen, zoals `KeyboardInterrupt` (Ctrl+C) en `SystemExit` (`sys.exit()`). Een kale `except:` vangt die ook, en dan stopt je programma niet meer als je dat wilt. Wil je alle gewone fouten opvangen, schrijf dan `except Exception:`. De stamboom staat op het [Python-fouten-spiekbriefje](../naslag/python-fouten-spiekbriefje.md).
 
 ## 4. Een fout vertalen: `raise ... from e` *(nieuwe constructie)*
 
@@ -241,7 +266,7 @@ Lees de foutmelding van onderen. De onderste regel hoort te zijn: `src.llm_clien
 ## 8. Samenvatting
 
 - **`raise`:** gooi een fout. De functie stopt direct, en de fout gaat naar boven. (`return` = klaar, hier is de waarde.)
-- **Eigen fouttype:** `class LLMError(Exception)` erft alles wat een fout kan. De ouder bepaalt wie hem opvangt: een `except` vangt de soort én alles wat ervan erft. Nooit een kale `except:`.
+- **Eigen fouttype:** `class LLMError(Exception)` erft alles wat een fout kan. Een `except` is een `isinstance`-vraag, dus hij vangt de soort én alles wat daarvan erft — naar beneden, nooit omhoog. Daarom bepaalt de ouder die je kiest wie je fout later opvangt. Nooit een kale `except:`.
 - **`raise ... from e`:** vertaal een technische fout naar een leesbare, en bewaar de originele als oorzaak ("komt door e"). Zonder `from` lijkt het op een tweede, los probleem.
 - **Een `raise` in een `except`** verlaat het hele blok en gaat naar de aanroeper; `finally` draait nog.
 - **Gat:** `ReadError` en `RemoteProtocolError` worden nog niet opgevangen. Oplossing in bouwstap 2: een vangnet `except httpx.TransportError`.
