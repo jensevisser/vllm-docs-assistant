@@ -7,8 +7,7 @@ Wat werkt:      repo op GitHub (`vllm-docs-assistant`, branch `sprint-0-ollama-a
                 FM-001 vastgelegd: Ollama kort een te lange prompt stil in (gemeten: 6968 tokens → 2050 bij `num_ctx` 4096, met 200 OK)
 Open / wankel:  vier bevindingen voor bouwstap 2, zelf gereproduceerd: `AttributeError` als het antwoord een lijst is · `except ValueError` staat te ruim om `http.post` · `httpx.RequestError` is beter dan `TransportError` (vangt ook `DecodingError`) · de waarschuwing bij `done_reason=length` noemt altijd `num_predict`, maar een vol venster geeft hetzelfde ·
                 pytest vindt `src` niet; `pythonpath = ["."]` in `pyproject.toml` nodig (gereproduceerd) ·
-                `/v1` negeert bij Ollama `truncate`, `num_ctx` en `think: false`; dat raakt het besluit "één aanroep-interface" (§6). Besluit bij les 05, vóór bouwstap 6 ·
-                vacaturecheck bij de start van Project 1 nog niet gedaan (natuurlijk moment: na Sprint 0)
+                `/v1` negeert bij Ollama `truncate`, `num_ctx` en `think: false`; dat raakt het besluit "één aanroep-interface" (§6). Besluit bij les 05, vóór bouwstap 6
 Besluiten:      domein = officiële vLLM-documentatie, vastgezet op één release-tag ·
                 model `qwen3.5:9b` (`4b` voor snel testen); `think: false` meesturen, want thinking staat bij dit model standaard aan ·
                 `httpx` raw-first; in Sprint 0 Ollama's eigen API, aan het eind ook `/v1/chat/completions`, beide via `ChatResult` ·
@@ -17,7 +16,6 @@ Besluiten:      domein = officiële vLLM-documentatie, vastgezet op één releas
                 lestempo zoals les 00: hooguit 3–4 nieuwe begrippen per deel; uitleg van bouwstappen in `notes/code/`, niet in de chat ·
                 bij elke bouwstap biedt Claude een stuk aan dat ik zelf kan schrijven, nadat hij het mechanisme één keer heeft voorgedaan; ik beslis per keer (CLAUDE.md §4) ·
                 Azure (Project 3) en LangGraph (Project 2) blijven open; besluit na de vacaturecheck eind Project 2 ·
-                verwijzingen in lessen en rondleidingen altijd met bestandsnaam én sectie als klikbare link, nooit "zie het spiekbriefje" ·
                 geen `Co-Authored-By` in commits
 Volgende stap:  bouwstap 2, in een schone chat.
                 Bouwplan Sprint 0:

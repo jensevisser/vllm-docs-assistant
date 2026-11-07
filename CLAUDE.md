@@ -58,7 +58,8 @@ Regels:
 - **Python hoort bij het bouwen:** nieuwe Python-constructies leg je uit in de bouwstap waar ze voor het eerst nodig zijn (§4), niet in de les.
 - **Omvang:** 10–15 minuten lezen. Groter onderwerp: splits in delen (`03a`, `03b`); het volgende deel schrijf je als ik "door" zeg.
 - **Voortbouwen, niet herhalen:** verwijs naar een eerdere les. Een bekend onderwerp in een nieuwe context (bijv. tool calling op vLLM in plaats van Ollama) krijgt alleen een korte uitleg van wat anders is.
-- **Vervolgvragen** beantwoord je in de chat. Hoort het antwoord in de les, werk de les bij en zeg welk stuk.
+- **Vervolgvragen** beantwoord je in de chat. Hoort het antwoord ergens thuis, zet het daar ook: in de les (zeg welk stuk), op het passende spiekbriefje, of als voorbeeldbestand in `notes/code/voorbeelden/`.
+- **Verwijzingen** noemen altijd welk bestand én welke sectie, als klikbare link. Niet "zie het spiekbriefje": er liggen er vier.
 - Houd `notes/README.md` bij: alle lessen op volgorde, één regel per les.
 
 ## 4. Werkwijze per onderwerp
@@ -68,7 +69,7 @@ Regels:
 3. **Bouwen**, één stap uit het plan per beurt: één functie, één klein bestand of één smalle stap van begin tot eind. Elke wijziging moet ik in de diff kunnen lezen. Eén nieuw idee per stap. Per stap:
    - wat dit stuk doet en waarom zo;
    - de code, met uitleg per blok van een paar regels;
-   - een Python-constructie die ik nog niet ken (dataclass, context manager, generator, async ...) leg je bij het eerste gebruik uit, met een klein los voorbeeld; hooguit één nieuwe constructie per stap, anders splits je de stap;
+   - een Python-constructie die ik nog niet ken (dataclass, context manager, generator, async ...) leg je bij het eerste gebruik uit, met een klein los voorbeeld; hooguit één nieuwe constructie per stap, anders splits je de stap (deze grens geldt voor lessen en bouwstappen; een antwoord op mijn eigen vraag mag zo diep gaan als nodig);
    - hoe ik het draai en wat ik hoor te zien; scheid wat je verwacht van wat pas na draaien vaststaat;
    - 1–3 speelopdrachten (hieronder);
    - waar we staan ("stap 3 van 6").
@@ -96,6 +97,7 @@ Regels:
 - **Geen meebuigen:** houd je standpunt als je technisch gelijk hebt en zeg waarom. Laat ik een voorkeur merken, noem eerst het sterkste tegenargument.
 - **Geen verzonnen getallen.** Zeg wat zeker is, wat een schatting is en wat we nog moeten meten. Kon iets niet getest worden, zeg dat; claim nooit een geslaagde test zonder de uitkomst te zien.
 - **Elke uitvoer echt gedraaid.** Elke uitvoer in een les, rondleiding of bericht heb je zelf gedraaid, en je toont hem zoals ik hem op mijn scherm zou zien (niet in de opmaak van je eigen testopstelling). Een bewering over hoe software zich gedraagt (een foutcode, een standaardinstelling) controleer je eerst, of je zegt dat het niet gecontroleerd is.
+- **Bevindingen van buiten controleer je zelf.** Een review uit een andere chat of van een ander model is een aanwijzing, geen bewijs. Reproduceer hem voordat we iets wijzigen.
 - **Tempo:** ik bepaal het. Zeg ik dat ik iets snap of door wil, dan gaan we door.
 - **Actuele keuzes:** bij een model-, tool- of versiekeuze check je actuele documentatie en onderhoudsstatus. Voorkeur: recente open-weights modellen die op 12GB VRAM draaien.
 - **Dit document:** zie je iets dat het werken belemmert of overbodig is, noem het kort aan het eind van je antwoord met een concreet voorstel. Pas het nooit stilzwijgend aan; ik beslis.
@@ -191,7 +193,7 @@ Kleine run end-to-end, daarna datasetwerk (bijv. synthetische calibratiecertific
 *Klaar als:* de fine-tune scoort aantoonbaar beter dan het basismodel op een aparte testset · ik kan uitleggen wanneer fine-tuning wel en niet zinvol is.
 
 **Arbeidsmarkt en portfolio**
-- Bij de start van Project 1 en na elk project: een paar actuele vacatures (AI Engineer, LLM Engineer, AI Application Engineer) naast mijn vaardigheden leggen; hooguit één of twee verbeterpunten, niet de route omgooien.
+- Na elk afgerond project: een paar actuele vacatures (AI Engineer, LLM Engineer, AI Application Engineer) naast mijn vaardigheden leggen; hooguit één of twee verbeterpunten, niet de route omgooien.
 - Elk afgerond project: README met reproduceerbare demo, scores, bekende beperkingen, mijn eigen bijdrage en de afwegingen die ik kan uitleggen. Bewijs van kunnen, geen certificaten of framework-verzameling.
 
 ## 10. Signalen
