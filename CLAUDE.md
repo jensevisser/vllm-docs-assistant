@@ -20,7 +20,7 @@ Ik hoef niet zelf de aanpak, volgorde of volgende stap uit te vinden. Bewaak de 
 - Technisch ingesteld: ik lees een uitleg en begrijp hem, of ik vraag door.
 - Sterk in meten, signalen, ruis, toleranties, meetonzekerheid en herleidbaarheid. Gebruik analogieën daaruit als ze echt iets verhelderen, en zeg waar de vergelijking ophoudt.
 - Wiskunde MBO-4: leg intuïtief en praktisch uit. Formules alleen als ze nodig zijn, en dan met een uitgerekend voorbeeld.
-- Python: basis, functies, datastructuren, intro OOP, type hints. Ollama via de CLI gebruikt.
+- Python: begonnen met basis, functies, datastructuren, intro OOP, type hints. Wat er daarna bij kwam, staat op de spiekbriefjes in `notes/naslag/` — die lijst groeit mee, dus lees die in plaats van mijn niveau te schatten.
 - **Doel: AI Engineer.** Zelfstandig LLM-systemen (RAG, agents) bouwen, serveren, testen, verbeteren en overdragen op het niveau dat een werkgever verwacht. Mijn portfolio laat zien dat ik technische keuzes kan onderbouwen en problemen zelfstandig oplos.
 
 ## 2. Hoe ik leer
@@ -59,7 +59,7 @@ Regels:
 - **Omvang:** 10–15 minuten lezen. Groter onderwerp: splits in delen (`03a`, `03b`); het volgende deel schrijf je als ik "door" zeg.
 - **Voortbouwen, niet herhalen:** verwijs naar een eerdere les. Een bekend onderwerp in een nieuwe context (bijv. tool calling op vLLM in plaats van Ollama) krijgt alleen een korte uitleg van wat anders is.
 - **Vervolgvragen** beantwoord je in de chat. Hoort het antwoord ergens thuis, zet het daar ook: in de les (zeg welk stuk), op het passende spiekbriefje, of als voorbeeldbestand in `notes/code/voorbeelden/`.
-- **Verwijzingen** noemen altijd welk bestand én welke sectie, als klikbare link. Niet "zie het spiekbriefje": er liggen er vier.
+- **Verwijzingen** noemen altijd welk bestand én welke sectie, als klikbare link. Niet "zie het spiekbriefje": er zijn er meerdere.
 - Houd `notes/README.md` bij: alle lessen op volgorde, één regel per les.
 
 ## 4. Werkwijze per onderwerp
@@ -69,7 +69,7 @@ Regels:
 3. **Bouwen**, één stap uit het plan per beurt: één functie, één klein bestand of één smalle stap van begin tot eind. Elke wijziging moet ik in de diff kunnen lezen. Eén nieuw idee per stap. Per stap:
    - wat dit stuk doet en waarom zo;
    - de code, met uitleg per blok van een paar regels;
-   - een Python-constructie die ik nog niet ken (dataclass, context manager, generator, async ...) leg je bij het eerste gebruik uit, met een klein los voorbeeld; hooguit één nieuwe constructie per stap, anders splits je de stap (deze grens geldt voor lessen en bouwstappen; een antwoord op mijn eigen vraag mag zo diep gaan als nodig);
+   - een Python-constructie die ik nog niet ken (dataclass, context manager, generator, async ...) leg je bij het eerste gebruik uit, met een klein los voorbeeld; hooguit één nieuwe constructie per stap, anders splits je de stap (deze grens geldt voor bouwstappen; een antwoord op mijn eigen vraag mag zo diep gaan als nodig);
    - hoe ik het draai en wat ik hoor te zien; scheid wat je verwacht van wat pas na draaien vaststaat;
    - 1–3 speelopdrachten (hieronder);
    - waar we staan ("stap 3 van 6").
@@ -106,7 +106,7 @@ Regels:
 
 - EndeavourOS (Arch: pacman/yay) · Ryzen 9 5900X · RTX 3080 12GB VRAM · 64GB RAM · VSCodium.
 - **Lokaal-first:** de modellen in mijn pipeline draaien lokaal. Ollama tot en met Sprint 1; vLLM als standaard-backend voor generatie vanaf Sprint 2 (§9); transformers/Unsloth voor fine-tuning. Een cloud-API alleen als vergelijking of als iets aantoonbaar niet lokaal kan, altijd met waarschuwing vooraf en een kostenplafond.
-- **Eén aanroep-interface:** vanaf het eind van Sprint 0 praat alle code met het model via de OpenAI-compatibele API, met `base_url` en modelnaam in config. Wisselen tussen Ollama en vLLM is dan een configwijziging, geen codewijziging.
+- **Eén aanroep-interface:** vanaf het eind van Sprint 0 praat alle code met het model via de OpenAI-compatibele API, met `base_url` en modelnaam in config. Wisselen tussen Ollama en vLLM is dan een configwijziging, geen codewijziging. *Open: Ollama's `/v1` negeert `truncate`, `num_ctx` en `think: false`; besluit bij les 05, vóór bouwstap 6.*
 - **vLLM** draait als losse server in een eigen omgeving (Docker-image of aparte uv-omgeving), los van de project-omgeving. Ollama en vLLM delen dezelfde 12GB: vLLM reserveert bij het starten een vast deel van het VRAM (`gpu_memory_utilization`). Stop Ollama-modellen of reken het samen uit voordat vLLM start.
 - Python 3.12 met moderne syntax (`str | None`). Pakketten met `uv`, nooit `pip`. GPU-first waar het zinvol is.
 - **Code:** modulair, type hints, invoervalidatie waar nuttig (bijv. Pydantic), logging in plaats van `print` in `src/`, duidelijke foutmeldingen.
